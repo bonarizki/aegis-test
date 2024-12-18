@@ -1,66 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aegis-Test
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project provides API endpoints for managing users.
 
-## About Laravel
+Available endpoints:
+- **GET /users**: Retrieve the list of users.
+- **POST /users**: Create a new user.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project also includes features for sending emails using queues, events, and listeners in Laravel. After a user is created, two event listeners will be triggered:
+- Sending an email to the admin.
+- Sending an email to the newly created user.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Description: This project is designed to simplify user data management and automate email delivery using Laravel. The system ensures seamless integration between the backend API and event-driven email services.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technology Used
+- PHP (Latest Laravel version)
 
-## Learning Laravel
+### Laravel 11 System Requirements
+To run Laravel 11, ensure your system meets the following requirements:
+- **PHP**: Version 8.2 or higher
+- **Database**: MySQL 8.0+, PostgreSQL 15+, SQLite 3.39+, or SQL Server 2017+
+- **Composer**: Version 2.5 or higher
+- Required **PHP Extensions**:
+  - OpenSSL
+  - PDO
+  - Mbstring
+  - Tokenizer
+  - XML
+  - Ctype
+  - JSON
+  - BCMath
+  - Fileinfo
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation Steps
+1. Clone this repository:
+   ```bash
+   git clone <repository-url>
+   cd aegis-test
+   ```
+2. Install dependencies using Composer:
+   ```bash
+   composer install
+   ```
+3. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+4. Configure the `.env` file as needed, including database and email settings.
+5. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+6. Run database migrations:
+   ```bash
+   php artisan migrate
+   ```
+7. Start the queue worker to process email queues:
+   ```bash
+   php artisan queue:work --queue=admin,user
+   ```
+8. Start the local server:
+   ```bash
+   php artisan serve
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Usage Examples
+### 1. Retrieve User List
+**Request:**
+```bash
+GET /users?search=&sortBy=
+```
+**Response:**
+```json
+{
+    "page": 1,
+    "users": [
+        {
+            "id": 25,
+            "name": "Terence McDermott",
+            "email": "camila57@example.net",
+            "active": 1,
+            "created_at": "2024-12-04T16:08:55.000000Z",
+            "deleted_at": null,
+            "orders_count": 19
+        }
+    [,
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Create a New User
+**Request:**
+```bash
+POST /users
+Content-Type: application/json
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "password": "securepassword"
+}
+```
+**Response:**
+```json
+{
+  "id": 2,
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "created_at": "2024-01-01T01:00:00.000000Z"
+}
+```
 
 ## License
+This project is licensed under the [MIT](LICENSE) license.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Contribution
+Contributions are welcome! Please create a pull request or open an issue for further discussion.

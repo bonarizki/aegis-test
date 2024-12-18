@@ -34,7 +34,7 @@ To run Laravel 11, ensure your system meets the following requirements:
 ## Installation Steps
 1. Clone this repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/bonarizki/aegis-test
    cd aegis-test
    ```
 2. Install dependencies using Composer:

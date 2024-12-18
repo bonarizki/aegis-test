@@ -83,7 +83,7 @@ GET /users?search=&sortBy=
             "deleted_at": null,
             "orders_count": 19
         }
-    [,
+    ],
 }
 ```
 

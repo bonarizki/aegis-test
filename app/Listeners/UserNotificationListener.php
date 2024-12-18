@@ -7,8 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class UserNotificationListener
+class UserNotificationListener implements ShouldQueue
 {
+
+    /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string|null
+     */
+    public $queue = 'user';
 
     /**
      * Create the event listener.
@@ -27,6 +34,6 @@ class UserNotificationListener
         $data = $event->user;
 
         // Log 
-        Log::info("welcome $data->name");
+        Log::info("welcome $data->name - via queue user");
     }
 }

@@ -40,16 +40,13 @@ class UserController extends Controller
             DB::transaction(function () use ($request, &$user) {
                 // Create a new user using the request data and save it to the database
                 $user = User::create($request->all());
-
-                // Trigger a notification event for the user, to send a notification about a specific activity or update.
-                event(new UserNotificationEvent($user));
-
-                // Trigger a notification event for the admin to inform them about an activity related to the user.
-                event(new AdminNotificationEvent($user));
             });
 
-            
+            // Trigger a notification event for the user, to send a notification about a specific activity or update.
+            event(new UserNotificationEvent($user));
 
+            // Trigger a notification event for the admin to inform them about an activity related to the user.
+            event(new AdminNotificationEvent($user));
 
             // Return the created user as a JSON response
             return response()->json($user);

@@ -38,6 +38,7 @@ class UserController extends Controller
 
         // Query data with pagination, sorting, and search filtering
         $users = User::query()
+            ->withCount('orders')
             ->offset($offset) // Apply the offset for pagination
             ->limit($perPage) // Limit the number of results per page
             ->orderBy($sortBy, $sortOrder); // Order the results by sortBy and sortOrder

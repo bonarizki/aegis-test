@@ -27,6 +27,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
+            'created_at' => fake()->dateTimeThisYear(), // Generate a random created_at within this year
+            'updated_at' => now(), // Optionally, you can set updated_at to the current time
         ];
     }
 
